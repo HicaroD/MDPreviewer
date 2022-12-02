@@ -1,2 +1,2 @@
-# MyMarkdown
+# MDPreviewer
 A simple Markdown previewer.
