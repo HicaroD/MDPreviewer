@@ -5,3 +5,5 @@ edition = "2021"
 
 [dependencies]
 comrak = "0.15"
+actix-web = "4"
+
