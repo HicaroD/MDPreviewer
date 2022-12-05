@@ -2,10 +2,16 @@
 A simple Markdown previewer.
 
 ## Installation
-TODO.
+
+```
+cargo install markdown-preview
+```
 
 ## Usage
-TODO.
+
+```
+markdown-preview PATH_TO_MARKDOWN_FILE
+```
 
 ## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE).
