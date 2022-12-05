@@ -2,6 +2,12 @@
 name = "markdown-preview"
 version = "0.1.0"
 edition = "2021"
+description= "A simple Markdown previewer"
+license = "MIT"
+keywords = ["markdown", "previewer", "parser", "web-server", "browser"]
+categories = ["development-tools"]
+authors = ["Hícaro <hdanrlley1@gmail.com>"]
+documentation = "https://github.com/HicaroD/MDPreviewer"
 
 [dependencies]
 comrak = "0.15"
