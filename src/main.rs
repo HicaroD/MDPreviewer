@@ -8,9 +8,7 @@ fn get_html(markdown_file_content: String) -> String {
 }
 
 fn get_file_path_from_command_line() -> String {
-    let mut args = env::args().skip(1);
-
-    let path = match args.next() {
+    let path = match env::args().nth(1) {
         Some(path) => path,
         None => {
             eprintln!("You should set a path for a Markdown file in the command line argument");
@@ -21,9 +19,7 @@ fn get_file_path_from_command_line() -> String {
 }
 
 fn get_port_number_from_command_line() -> u16 {
-    let mut args = env::args().skip(2);
-
-    let port_number = match args.next() {
+    let port_number = match env::args().nth(2) {
         // FIXME: avoid too many levels of indentation
         Some(number) => {
             let parsed_number = match u16::from_str(&number) {
