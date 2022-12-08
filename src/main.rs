@@ -15,7 +15,7 @@ fn get_file_path_from_command_line() -> String {
             std::process::exit(1);
         }
     };
-    return path;
+    path
 }
 
 fn get_port_number_from_command_line() -> u16 {
