@@ -1,23 +1,40 @@
 use actix_web::{get, Responder, HttpResponse, App, HttpServer};
 use comrak::{markdown_to_html, ComrakOptions};
-use std::{env, fs::File, io::prelude::*};
+use std::{env, fs::File, io::prelude::*, str::FromStr};
 
 fn get_html(markdown_file_content: String) -> String {
     let converted_markdown = markdown_to_html(&markdown_file_content, &ComrakOptions::default());
-    return converted_markdown;
+    converted_markdown
 }
 
 fn get_file_path_from_command_line() -> String {
-    let mut args = env::args().skip(1);
-
-    let path = match args.next() {
+    let path = match env::args().nth(1) {
         Some(path) => path,
         None => {
             eprintln!("You should set a path for a Markdown file in the command line argument");
             std::process::exit(1);
         }
     };
-    return path;
+    path
+}
+
+fn get_port_number_from_command_line() -> u16 {
+    let port_number = match env::args().nth(2) {
+        // FIXME: avoid too many levels of indentation
+        Some(number) => {
+            let parsed_number = match u16::from_str(&number) {
+                Ok(number) => number,
+                Err(_) => {
+                    eprintln!("You should a valid port number");
+                    std::process::exit(1);
+                }
+            };
+            parsed_number
+        },
+        None => 8080,
+    };
+
+    port_number
 }
 
 fn read_markdown_file(file_path: String) -> String {
@@ -28,7 +45,7 @@ fn read_markdown_file(file_path: String) -> String {
         .read_to_string(&mut markdown_file_content)
         .expect("Should read to string");
 
-    return markdown_file_content;
+    markdown_file_content
 }
 
 #[get("/")]
@@ -42,9 +59,11 @@ async fn get_file() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("You can access this address on your browser: 127.0.0.1:5110");
+    let port_number = get_port_number_from_command_line();
+    println!("You can access this address on your browser: 127.0.0.1:{}", port_number);
+
     HttpServer::new(|| App::new().service(get_file))
-        .bind(("127.0.0.1", 5110))?
+        .bind(("127.0.0.1", port_number))?
         .run()
         .await
 }
